@@ -2,9 +2,9 @@
   "name": "finnkino2json-server",
   "version": "0.0.1",
   "description": "Simple API server that translates XML responses from Finnkino API to JSON.",
-  "main": "server.js",
+  "main": "finnkino2json.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,17 @@
   "bugs": {
     "url": "https://github.com/mikahimself/finnkino2json-server/issues"
   },
-  "homepage": "https://github.com/mikahimself/finnkino2json-server#readme"
+  "homepage": "https://github.com/mikahimself/finnkino2json-server#readme",
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-typescript": "^7.16.5",
+    "babel-jest": "^27.4.5",
+    "jest": "^27.4.5",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "xml2js": "^0.4.23"
+  }
 }
