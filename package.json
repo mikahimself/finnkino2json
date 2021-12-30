@@ -1,8 +1,8 @@
 {
-  "name": "finnkino2json-server",
+  "name": "finnkino2json",
   "version": "0.0.1",
-  "description": "Simple API server that translates XML responses from Finnkino API to JSON.",
-  "main": "finnkino2json.ts",
+  "description": "Library that translates XML responses from the Finnkino API to JSON.",
+  "main": "index.ts",
   "scripts": {
     "test": "jest"
   },
@@ -20,8 +20,10 @@
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-typescript": "^7.16.5",
+    "@types/jest": "^27.0.3",
     "babel-jest": "^27.4.5",
     "jest": "^27.4.5",
+    "ts-jest": "^27.1.2",
     "typescript": "^4.5.4"
   },
   "dependencies": {

@@ -1,17 +1,12 @@
 import xml2js from "xml2js";
-import axios from "axios";
 import { TheatreArea } from "./interfaces/TheatreArea";
 import { TheatreAreaXml2Js } from "./interfaces/TheatreAreaXml2Js";
+import { getAreasXML } from "./utils/getDataFromUrl";
 
 export async function getAreaData(): Promise<TheatreArea[]> {
-  const xmlData = await getAreaXml();
+  const xmlData = await getAreasXML();
   const jsonData = await convertAreaXmlToJson(xmlData)
   return jsonData;
-}
-
-async function getAreaXml(): Promise<string> {
-  const xmlData = await axios.get("https://www.finnkino.fi/xml/TheatreAreas/");
-  return xmlData.data;
 }
 
 async function convertAreaXmlToJson(xmlData:string): Promise<TheatreArea[]> {
