@@ -1,4 +1,5 @@
-import { getAreaData } from "./getAreaData";
+import { getAreas } from "./getAreas";
 import { getScheduleDates } from "./getScheduleDates";
+import { getSchedule } from "./getSchedule";
 
-export { getAreaData, getScheduleDates }
+export { getAreas, getScheduleDates, getSchedule }
