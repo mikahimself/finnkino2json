@@ -1,4 +1,10 @@
 export interface TheatreArea {
-  id: number,
-  name: string
+  id: string,
+  name: string,
+  area: string
+}
+
+export interface TheatreAreaXml2Js {
+  ID: string[],
+  Name: string[]
 }

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { ScheduleParams } from "../interfaces/ScheduleParams";
 
-export async function getAreasXML() {
+export async function getAreasXML():Promise<string> {
   try {
-    const xmlData = await axios.get("https://www.finnkino.fi/xml/TheatreAreas/");
+    const xmlData = await axios.get<string>("https://www.finnkino.fi/xml/TheatreAreas/");
     return xmlData.data;
   } catch (error) {
     throw error;

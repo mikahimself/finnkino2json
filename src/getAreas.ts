@@ -1,6 +1,6 @@
-import xml2js from "xml2js";
+import { parseStringPromise } from "xml2js";
 import { TheatreArea } from "./interfaces/TheatreArea";
-import { TheatreAreaXml2Js } from "./interfaces/TheatreAreaXml2Js";
+import { TheatreAreasXml2Js } from "./interfaces/TheatreAreasXml2Js";
 import { getAreasXML } from "./utils/getDataFromUrl";
 
 export async function getAreas(): Promise<TheatreArea[]> {
@@ -9,21 +9,21 @@ export async function getAreas(): Promise<TheatreArea[]> {
     const jsonData = await convertAreaXmlToJson(xmlData)
     return jsonData;
   } catch (error) {
-    throw new Error("Cannot get/convert areas to JSON.");
+    throw new Error("Cannot get/convert areas to JSON:");
   }
 }
 
 async function convertAreaXmlToJson(xmlData:string): Promise<TheatreArea[]> {
   try {
-    let theatreArray;
-    const theatreArrayJson: TheatreArea[] = []
-    await xml2js.parseString(xmlData, (err, result: TheatreAreaXml2Js) => {
-      theatreArray = result.TheatreAreas.TheatreArea;
+    const rawJson: TheatreAreasXml2Js = await parseStringPromise(xmlData, (err:any) => {
+      if (err) {
+        throw new Error(`Unable to convert XML input to JSON: ${err}`);
+      }
     })
-    theatreArray.forEach(element => {
-      theatreArrayJson.push({id: element.ID[0], name: element.Name[0]})
-    });
-    return theatreArrayJson;
+    const parsedJson: TheatreArea[] = rawJson.TheatreAreas.TheatreArea.map(theatre => {
+      return { id: theatre.ID[0], name: theatre.Name[0], area: theatre.Name[0].split(":")[0] }
+    })
+    return parsedJson;
   } catch (error) {
     throw error;
   }
