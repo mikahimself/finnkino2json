@@ -1,22 +1,26 @@
-import xml2js from "xml2js";
+import { parseStringPromise } from "xml2js";
 import { getScheduleDatesXML } from "./utils/getDataFromUrl";
-import { ScheduleDate } from "./interfaces/ScheduleDate";
+import { ScheduleDate, ScheduleDateXml2Js } from "./interfaces/ScheduleDate";
+import { config } from "./config";
 
-export async function getScheduleDates(areaId: number = 0) {
+/**
+ * Returns 
+ * @param {string} [areaId] Identifier of a TheatreArea. If no areaId is provided, 
+ * the default areaId defined in config.defaultArea will be used.
+ * @returns {Promise<ScheduleDate[]>} Promise that contains an array of ScheduleDates for the chosen TheatreArea.
+ */
+export async function getScheduleDates(areaId: string = config.defaultArea ): Promise<ScheduleDate[]> {
   const xmlData = await getScheduleDatesXML(areaId)
   const jsonData = convertDataToJson(xmlData);
   return jsonData;
 }
 
 async function convertDataToJson(xmlData:string): Promise<ScheduleDate[]> {
-  let dateArray;
-  const dateArrayJson: ScheduleDate[] = []
-  await xml2js.parseString(xmlData, (err, result) => {
-    dateArray = result.Dates.dateTime;
+  const rawJsonData: ScheduleDateXml2Js = await parseStringPromise(xmlData, (err) => {
+    if (err) throw new Error (`Error converting date array to JSON: ${err}`)
   })
-
-  dateArray.forEach(element => {
-    dateArrayJson.push({"date": element})
+  const parsedJson: ScheduleDate[] = rawJsonData.Dates.dateTime.map((date:string) => {
+    return { date: new Date(date) }
   });
-  return dateArrayJson;
+  return parsedJson;
 }

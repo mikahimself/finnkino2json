@@ -3,13 +3,17 @@ import { TheatreArea } from "./interfaces/TheatreArea";
 import { TheatreAreasXml2Js } from "./interfaces/TheatreAreasXml2Js";
 import { getAreasXML } from "./utils/getDataFromUrl";
 
+/**
+ * Retrieve an array of available TheatreAreas
+ * @returns {Promise<TheatreArea>} Promise containing an array of available TheatreAreas
+ */
 export async function getAreas(): Promise<TheatreArea[]> {
   try {
     const xmlData = await getAreasXML();
     const jsonData = await convertAreaXmlToJson(xmlData)
     return jsonData;
   } catch (error) {
-    throw new Error("Cannot get/convert areas to JSON:");
+    throw new Error(`Error getting Area JSON: ${error}`);
   }
 }
 
