@@ -1,6 +1,6 @@
 export interface ScheduleParams {
-  areaId?: number,
+  areaId?: string,
   date?: string,
-  eventId?: number,
-  nrOfDays?: number
+  eventId?: string,
+  nrOfDays?: string
 }

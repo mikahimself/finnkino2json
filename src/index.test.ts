@@ -126,7 +126,7 @@ describe("Get schedule data from Finnkino API", () => {
   test('should get schedule for defined area and default date', async() => {
     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-    expect(await getSchedule({ areaId: 1038 })).toMatchObject(expectedScheduleJson);
+    expect(await getSchedule({ areaId: '1038' })).toMatchObject(expectedScheduleJson);
     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?area=1038");
     expect(axios.get).toHaveBeenCalledTimes(1);
   });
@@ -134,14 +134,14 @@ describe("Get schedule data from Finnkino API", () => {
   test('should get schedule for defined event', async() => {
     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-    expect(await getSchedule({ eventId: 303601 })).toMatchObject(expectedScheduleJson);
+    expect(await getSchedule({ eventId: '303601' })).toMatchObject(expectedScheduleJson);
     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?eventID=303601");
     expect(axios.get).toHaveBeenCalledTimes(1);
   });
   test('should get schedule for defined number of days', async() => {
     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-    expect(await getSchedule({ nrOfDays: 3 })).toMatchObject(expectedScheduleJson);
+    expect(await getSchedule({ nrOfDays: '3' })).toMatchObject(expectedScheduleJson);
     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?nrOfDays=3");
     expect(axios.get).toHaveBeenCalledTimes(1);
   });
@@ -149,7 +149,7 @@ describe("Get schedule data from Finnkino API", () => {
   test('should get schedule for defined area, defined event, and defined number of days', async() => {
     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-    expect(await getSchedule({ areaId: 1038, eventId: 303601, nrOfDays: 3 })).toMatchObject(expectedScheduleJson);
+    expect(await getSchedule({ areaId: '1038', eventId: '303601', nrOfDays: '3' })).toMatchObject(expectedScheduleJson);
     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?area=1038&eventID=303601&nrOfDays=3");
     expect(axios.get).toHaveBeenCalledTimes(1);
   });

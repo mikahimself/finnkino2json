@@ -1,4 +1,4 @@
-import xml2js from "xml2js";
+import { parseStringPromise } from "xml2js";
 import * as utils from "./utils/getDataFromUrl";
 import { Show, ShowXml2Js } from "./interfaces/Show";
 import { ScheduleParams } from "./interfaces/ScheduleParams";
@@ -19,11 +19,11 @@ export async function getSchedule(params?: ScheduleParams) {
 async function convertDataToJson(xmlData:string): Promise<Show[]> {
   let showArray: ShowXml2Js[];
   const showArrayJson: Show[] = []
-  await xml2js.parseString(xmlData, (err, result) => {
+  const rawJsonData = await parseStringPromise(xmlData, (err, result) => {
     showArray = result.Schedule.Shows[0].Show;
-
   })
-  showArray.forEach((element: ShowXml2Js) => {
+  // showArray.forEach((element: ShowXml2Js) => {
+  rawJsonData.Schedule.Shows[0].Show.forEach((element: ShowXml2Js) => {
     showArrayJson.push(
       {
         id: Number(element.ID[0]),
@@ -89,8 +89,8 @@ async function convertDataToJson(xmlData:string): Promise<Show[]> {
           ...element.Images[0]?.EventSmallImagePortrait && { eventSmallImagePortrait: element.Images[0].EventSmallImagePortrait[0] },
           ...element.Images[0]?.EventMediumImagePortrait && { eventMediumImagePortrait: element.Images[0].EventMediumImagePortrait[0] },
           ...element.Images[0]?.EventLargeImagePortrait && { eventLargeImagePortrait: element.Images[0].EventLargeImagePortrait[0] },
-          ...element.Images[0]?.EventSmallImageLandscape[0] && { eventSmallImageLandscape: element.Images[0].EventSmallImageLandscape[0] },
-          ...element.Images[0]?.EventLargeImageLandscape[0] && { eventLargeImageLandscape: element.Images[0].EventLargeImageLandscape[0] },
+          ...element.Images[0]?.EventSmallImageLandscape && { eventSmallImageLandscape: element.Images[0].EventSmallImageLandscape[0] },
+          ...element.Images[0]?.EventLargeImageLandscape && { eventLargeImageLandscape: element.Images[0].EventLargeImageLandscape[0] },
         },
         contentDescriptors: element.ContentDescriptors
       })
