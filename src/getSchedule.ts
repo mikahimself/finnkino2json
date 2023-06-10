@@ -12,6 +12,7 @@ export async function getSchedule(params?: ScheduleParams) {
     const jsonData = await convertDataToJson(xmlData);
     return jsonData;
   } catch (error) {
+    console.log("Failed to transform Schedule XML to JSON.")
     throw error;
   }
 }
@@ -20,8 +21,11 @@ async function convertDataToJson(xmlData:string): Promise<Show[]> {
   let showArray: ShowXml2Js[];
   const showArrayJson: Show[] = []
   const rawJsonData = await parseStringPromise(xmlData, (err, result) => {
-    showArray = result.Schedule.Shows[0].Show;
-  })
+    if (err) {
+      console.log("Failed to parse XML data to JSON")
+    }
+    return result;
+  });
   // showArray.forEach((element: ShowXml2Js) => {
   rawJsonData.Schedule.Shows[0].Show.forEach((element: ShowXml2Js) => {
     showArrayJson.push(

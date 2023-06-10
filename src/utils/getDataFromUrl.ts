@@ -2,7 +2,7 @@ import axios from "axios";
 import { config } from "../config";
 import { ScheduleParams } from "../interfaces/ScheduleParams";
 
-var dateTimeOptions: Intl.DateTimeFormatOptions = {
+const dateTimeOptions: Intl.DateTimeFormatOptions = {
   year: "numeric",
   month: "2-digit",
   day: "2-digit"
@@ -65,6 +65,7 @@ export async function getScheduleXML(
     const xmlData = await axios.get(`${config.scheduleUrl}/${searchParamsString}`)
     return xmlData.data;
   } catch (error) {
+    console.log("Failed to get schedule XML")
     throw error;
   }
 }

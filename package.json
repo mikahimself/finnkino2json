@@ -4,7 +4,8 @@
   "description": "Library that translates XML responses from the Finnkino API to JSON.",
   "main": "index.ts",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
