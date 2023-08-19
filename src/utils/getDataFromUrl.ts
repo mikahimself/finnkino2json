@@ -41,14 +41,14 @@ export async function getScheduleDatesXML(areaId: string): Promise<string> {
  * @returns 
  */
 export async function getScheduleXML(
-  { areaId = config.defaultArea,
+  { theatreAreaId = config.defaultArea,
     date = new Date().toLocaleDateString("fi", dateTimeOptions),
     eventId,
-    nrOfDays = config.nrOfDays } :ScheduleParams): Promise<string> {
+    numberOfDays = config.numberOfDays } :ScheduleParams): Promise<string> {
   try {
     const params = {}
-    if (areaId) {
-      params["area"] = areaId;
+    if (theatreAreaId) {
+      params["area"] = theatreAreaId;
     }
     if (date) {
       params["dt"] = date;
@@ -56,13 +56,13 @@ export async function getScheduleXML(
     if (eventId) {
       params["eventID"] = eventId;
     }
-    if (nrOfDays) {
-      params["nrOfDays"] = nrOfDays;
+    if (numberOfDays) {
+      params["nrOfDays"] = numberOfDays;
     }
 
     const searchParamsObj = new URLSearchParams(params);
     const searchParamsString = searchParamsObj.toString().length > 0 ? `?${searchParamsObj.toString()}` : '';
-    const xmlData = await axios.get(`${config.scheduleUrl}/${searchParamsString}`)
+    const xmlData = await axios.get(`${config.scheduleUrl}/${searchParamsString}`, {responseType: "document"})
     return xmlData.data;
   } catch (error) {
     console.log("Failed to get schedule XML")

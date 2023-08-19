@@ -1,6 +1,13 @@
+/**
+ * @interface ScheduleParams - Defines an interface for parameters used in retrieving a schedule.
+ * @property {string} [theatreAreaId] Identifier of a Theatre Area. Defaults to first item received from getArea()
+ * @property {string} [date] Date of the schedule. Defaults to present day
+ * @property {string} [eventId] Identifier of an event. Defaults to all events.
+ * @property {number} [numberOfDays] Number of days for which to fetch events. Allowed values are 1-31. Defaults to 1. 
+ */
 export interface ScheduleParams {
-  areaId?: string,
+  theatreAreaId?: string,
   date?: string,
   eventId?: string,
-  nrOfDays?: string
+  numberOfDays?: number
 }

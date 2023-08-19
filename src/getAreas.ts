@@ -18,17 +18,17 @@ export async function getAreas(): Promise<TheatreArea[]> {
 }
 
 async function convertAreaXmlToJson(xmlData:string): Promise<TheatreArea[]> {
+  const rawJson: TheatreAreasXml2Js = await parseStringPromise(xmlData, (err:any) => {
+    if (err) {
+      throw new Error(`Unable to convert XML input to raw JSON: ${err}`);
+    }
+  })
   try {
-    const rawJson: TheatreAreasXml2Js = await parseStringPromise(xmlData, (err:any) => {
-      if (err) {
-        throw new Error(`Unable to convert XML input to JSON: ${err}`);
-      }
-    })
     const parsedJson: TheatreArea[] = rawJson.TheatreAreas.TheatreArea.map(theatre => {
       return { id: theatre.ID[0], name: theatre.Name[0], area: theatre.Name[0].split(":")[0] }
     })
     return parsedJson;
   } catch (error) {
-    throw error;
+    throw new Error(`Unable to convert raw JSON to sanitized JSON: ${error}`);
   }
 }

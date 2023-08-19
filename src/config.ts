@@ -1,7 +1,7 @@
 interface Config {
   _baseURL: string,
   _defaultArea: string,
-  _nrOfDays: string,
+  _numberOfDays: number,
   baseURL: string,
   areasUrl: string,
   scheduleDatesUrl?: string,
@@ -10,13 +10,13 @@ interface Config {
   newsUrl?: string,
   newsCategoriesUrl?: string,
   defaultArea: string,
-  nrOfDays: string
+  numberOfDays: number
 }
 
 export let config: Config = {
   _baseURL: 'https://www.finnkino.fi/xml',
   _defaultArea: '1046',
-  _nrOfDays: '1',
+  _numberOfDays: 1,
   get baseURL() { return this._baseURL },
   set baseURL(value) {
     this._baseURL = value;
@@ -29,6 +29,6 @@ export let config: Config = {
   get newsCategoriesUrl() { return this._baseURL + '/NewsCategories/'},
   get defaultArea() { return this._defaultArea},
   set defaultArea(value) { this._defaultArea = value },
-  get nrOfDays() { return this._nrOfDays},
-  set nrOfDays(value) { this._nrOfDays = value}
+  get numberOfDays() { return this._numberOfDays},
+  set numberOfDays(value) { this._numberOfDays = value}
 }
