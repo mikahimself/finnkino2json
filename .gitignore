@@ -105,3 +105,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Finnkino2json download folder
+downloads/
