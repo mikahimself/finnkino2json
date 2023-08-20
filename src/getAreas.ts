@@ -4,12 +4,12 @@ import { TheatreAreasXml2Js } from "./interfaces/TheatreAreasXml2Js";
 import { getAreasXML } from "./utils/getDataFromUrl";
 
 /**
- * Retrieve an array of available TheatreAreas
+ * Retrieve an array of available Theatre Areas and optionally store the retrieved XML data on disk.
  * @returns {Promise<TheatreArea>} Promise containing an array of available TheatreAreas
  */
-export async function getAreas(): Promise<TheatreArea[]> {
+export async function getAreas(storeXml: boolean = false): Promise<TheatreArea[]> {
   try {
-    const xmlData = await getAreasXML();
+    const xmlData = await getAreasXML(storeXml);
     const jsonData = await convertAreaXmlToJson(xmlData)
     return jsonData;
   } catch (error) {

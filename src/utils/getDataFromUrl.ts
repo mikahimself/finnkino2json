@@ -1,6 +1,9 @@
 import axios from "axios";
 import { config } from "../config";
 import { ScheduleParams } from "../interfaces/ScheduleParams";
+import { mkdir, writeFile } from "fs/promises"; 
+import path from "path";
+import { existsSync } from "fs";
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
   year: "numeric",
@@ -8,13 +11,30 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
   day: "2-digit"
 };
 
+async function checkDownloadDirectory() {
+  if (existsSync(config.downloadDir)) {
+    return true;
+  }
+  try {
+    await mkdir(config.downloadDir);
+    return true;
+  } catch (error) {
+    console.error(`Failed to create download directory at ${config.downloadDir}: `, error)
+    return false;
+  }
+}
+
 /**
  * Retrieve an array of TheatreAreas in XML format
  * @returns XML string representation of the TheatreArea array
  */
-export async function getAreasXML():Promise<string> {
+export async function getAreasXML(storeXml: boolean = false):Promise<string> {
   try {
     const xmlData = await axios.get<string>(config.areasUrl);
+    if (storeXml && checkDownloadDirectory()) {
+      const file = path.join(config.downloadDir, 'Areas.xml')
+      await writeFile(file, xmlData.data)
+    }
     return xmlData.data;
   } catch (error) {
     throw new Error(`Unable to download XML Area data from ${config.areasUrl}: ${error}`);
@@ -26,9 +46,13 @@ export async function getAreasXML():Promise<string> {
  * @param {string} areaId AreaID of the Theatre Area from which you want to fetch available dates.
  * @returns {string} XML string representation of ScheduleDates for a defined area
  */
-export async function getScheduleDatesXML(areaId: string): Promise<string> {
+export async function getScheduleDatesXML(areaId: string, storeXml: boolean): Promise<string> {
   try {
     const xmlData = await axios.get<string>(`${config.scheduleDatesUrl}?area=${areaId}`)
+    if (storeXml && checkDownloadDirectory()) {
+      const file = path.join(config.downloadDir, config.scheduleDatesXmlFilename)
+      await writeFile(file, xmlData.data)
+    }
     return xmlData.data
   } catch (error) {
     throw new Error(`Unable to download XML Schedule Date data from ${config.areasUrl} using Area ID ${areaId}: ${error}`);

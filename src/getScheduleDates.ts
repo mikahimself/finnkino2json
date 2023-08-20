@@ -1,26 +1,37 @@
 import { parseStringPromise } from "xml2js";
 import { getScheduleDatesXML } from "./utils/getDataFromUrl";
-import { ScheduleDate, ScheduleDateXml2Js } from "./interfaces/ScheduleDate";
+import { ScheduleDate, ScheduleDateParams, ScheduleDateXml2Js } from "./interfaces/ScheduleDate";
 import { config } from "./config";
 
 /**
- * Returns 
- * @param {string} [areaId] Identifier of a TheatreArea. If no areaId is provided, 
- * the default areaId defined in config.defaultArea will be used.
+ * Fetch available Schedule Dates for the chosen Theatre Area and optionally store the retrieved XML data on disk.
+ * @param {ScheduleDateParams} [scheduleDateParams]
  * @returns {Promise<ScheduleDate[]>} Promise that contains an array of ScheduleDates for the chosen TheatreArea.
  */
-export async function getScheduleDates(areaId: string = config.defaultArea ): Promise<ScheduleDate[]> {
-  const xmlData = await getScheduleDatesXML(areaId)
-  const jsonData = convertDataToJson(xmlData);
-  return jsonData;
+export async function getScheduleDates(scheduleDateParams?: ScheduleDateParams): Promise<ScheduleDate[]> {
+  try {
+    const { areaId = config.defaultArea, storeXml = false } = scheduleDateParams ?? {};
+    const xmlData = await getScheduleDatesXML(areaId, storeXml)
+    const jsonData = convertDataToJson(xmlData);
+    return jsonData;
+  } catch (error) {
+    console.log(error)
+    throw new Error (error);
+  }
 }
 
 async function convertDataToJson(xmlData:string): Promise<ScheduleDate[]> {
-  const rawJsonData: ScheduleDateXml2Js = await parseStringPromise(xmlData, (err) => {
-    if (err) throw new Error (`Error converting date array to JSON: ${err}`)
+  if (!xmlData) return;
+  const rawJsonData: ScheduleDateXml2Js = await parseStringPromise(xmlData, (err:any) => {
+    if (err) {
+      throw new Error (`Error converting date array to JSON: ${err}`)
+    }
   })
   const parsedJson: ScheduleDate[] = rawJsonData.Dates.dateTime.map((date:string) => {
-    return { date: new Date(date) }
+    // Add UTC+0 to prevent date from being yesterday.
+    const dateWithCode = new Date(date.split("T")[0] + " UTC-00:00");
+    return { date: new Date(dateWithCode) }
   });
+
   return parsedJson;
 }
