@@ -10,7 +10,7 @@ const getAreasTest = async () => {
 }
 
 const getScheduleDatesTest = async () => {
-  const data = await getScheduleDates();
+  const data = await getScheduleDates({ storeXml: true });
   console.log(data);
 }
 

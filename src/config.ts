@@ -23,12 +23,12 @@ interface Config {
 
 export let config: Config = {
   _baseURL: 'https://www.finnkino.fi/xml',
-  _defaultArea: '1046',
+  _defaultArea: '',
   _numberOfDays: 1,
   _downloadDir: './downloads',
-  _areaXmlFilename: 'Areas.xml',
-  _scheduleDatesXmlFilename: "ScheduleDates.xml",
-  _scheduleXmlFilename: "Schedule.xml",
+  _areaXmlFilename: 'Areas',
+  _scheduleDatesXmlFilename: "ScheduleDates",
+  _scheduleXmlFilename: "Schedule",
   get baseURL() { return this._baseURL },
   set baseURL(value) {
     this._baseURL = value;
