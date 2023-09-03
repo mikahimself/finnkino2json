@@ -2,7 +2,8 @@
   "name": "finnkino2json",
   "version": "0.0.1",
   "description": "Library that translates XML responses from the Finnkino API to JSON.",
-  "main": "index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "tsc"

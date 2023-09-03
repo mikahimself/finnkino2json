@@ -18,7 +18,3 @@ const getScheduleTest = async () => {
   const data = await getSchedule();
   console.log(data);
 }
-
-const test = async () => { await getScheduleDatesTest() };
-
-test();
