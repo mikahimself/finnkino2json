@@ -5,12 +5,6 @@ import { writeFile } from "fs/promises";
 import path from "path";
 import { existsSync, mkdir } from "fs";
 
-const dateTimeOptions: Intl.DateTimeFormatOptions = {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit"
-};
-
 function checkDownloadDirectory() {
   if (existsSync(config.downloadDir)) {
     return true;
@@ -96,17 +90,19 @@ export async function getScheduleDatesXML(areaId: string, storeXml: boolean): Pr
  * @returns 
  */
 export async function getScheduleXML(
-  { theatreAreaId = config.defaultArea,
-    date = new Date().toLocaleDateString("fi", dateTimeOptions),
+  { theatreAreaId = config.defaultArea ?? undefined,
+    date = undefined,
     eventId,
-    numberOfDays = config.numberOfDays } :ScheduleParams): Promise<string> {
+    numberOfDays = config.numberOfDays ?? undefined } :ScheduleParams): Promise<string> {
+  
   try {
     const params = {}
     if (theatreAreaId) {
       params["area"] = theatreAreaId;
     }
     if (date) {
-      params["dt"] = date;
+      const formattedDate = new Date(date).toLocaleDateString("fi", config.dateTimeOptions)
+      params["dt"] = formattedDate;
     }
     if (eventId) {
       params["eventID"] = eventId;
@@ -116,9 +112,8 @@ export async function getScheduleXML(
     }
 
     const searchParamsObj = new URLSearchParams(params);
-    console.log(searchParamsObj)
     const searchParamsString = searchParamsObj.toString().length > 0 ? `?${searchParamsObj.toString()}` : '';
-    const xmlData = await axios.get(`${config.scheduleUrl}/${searchParamsString}`, {responseType: "document"})
+    const xmlData = await axios.get(`${config.scheduleUrl}${searchParamsString}`, { responseType: "document" })
     return xmlData.data ?? "";
   } catch (error) {
     console.log("Failed to get schedule XML")

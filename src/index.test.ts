@@ -108,53 +108,64 @@ describe("Get dates from Finnkino API", () => {
   });
 })
 
-// describe("Get schedule data from Finnkino API", () => {
-//   it('should get schedule for default area with all events for the current date', async() => {
-//     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
+describe("Get schedule data from Finnkino API", () => {
+  it('should get schedule using default value from the API', async() => {
+    mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
+    expect(await getSchedule()).toMatchObject(expectedScheduleJson);
+    expect(axios.get).toHaveBeenCalledWith(
+      "https://www.finnkino.fi/xml/Schedule/",
+      { "responseType": "document" });
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  });
+  test('should get schedule for default area with all events for a defined date', async() => {
+    mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-//     expect(await getSchedule()).toMatchObject(expectedScheduleJson);
-//     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/");
-//     expect(axios.get).toHaveBeenCalledTimes(1);
-//   });
-//   test('should get schedule for default area with all events for a defined date', async() => {
-//     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
+    expect(await getSchedule({ date: '2022-01-01T00:00:00' })).toMatchObject(expectedScheduleJson);
+    expect(axios.get).toHaveBeenCalledWith(
+      "https://www.finnkino.fi/xml/Schedule/?dt=01.01.2022",
+      { "responseType": "document" });
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  })
+  test('should get schedule for defined area and default date', async() => {
+    mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-//     expect(await getSchedule({ date: '2022-01-01T00:00:00' })).toMatchObject(expectedScheduleJson);
-//     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?dt=01.01.2022");
-//     expect(axios.get).toHaveBeenCalledTimes(1);
-//   })
-//   test('should get schedule for defined area and default date', async() => {
-//     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
+    expect(await getSchedule({ theatreAreaId: '1038' })).toMatchObject(expectedScheduleJson);
+    expect(axios.get).toHaveBeenCalledWith(
+      "https://www.finnkino.fi/xml/Schedule/?area=1038",
+      { "responseType": "document" });
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  });
 
-//     expect(await getSchedule({ theatreAreaId: '1038' })).toMatchObject(expectedScheduleJson);
-//     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?area=1038");
-//     expect(axios.get).toHaveBeenCalledTimes(1);
-//   });
+  test('should get schedule for defined event', async() => {
+    mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-//   test('should get schedule for defined event', async() => {
-//     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
+    expect(await getSchedule({ eventId: '303601' })).toMatchObject(expectedScheduleJson);
+    expect(axios.get).toHaveBeenCalledWith(
+      "https://www.finnkino.fi/xml/Schedule/?eventID=303601",
+      { "responseType": "document" });
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  });
+  test('should get schedule for defined number of days', async() => {
+    mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-//     expect(await getSchedule({ eventId: '303601' })).toMatchObject(expectedScheduleJson);
-//     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?eventID=303601");
-//     expect(axios.get).toHaveBeenCalledTimes(1);
-//   });
-//   test('should get schedule for defined number of days', async() => {
-//     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
+    expect(await getSchedule({ numberOfDays: 3 })).toMatchObject(expectedScheduleJson);
+    expect(axios.get).toHaveBeenCalledWith(
+      "https://www.finnkino.fi/xml/Schedule/?nrOfDays=3",
+      { "responseType": "document" });
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  });
 
-//     expect(await getSchedule({ numberOfDays: 3 })).toMatchObject(expectedScheduleJson);
-//     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?nrOfDays=3");
-//     expect(axios.get).toHaveBeenCalledTimes(1);
-//   });
+  test('should get schedule for defined area, defined event, and defined number of days', async() => {
+    mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-//   test('should get schedule for defined area, defined event, and defined number of days', async() => {
-//     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
+    expect(await getSchedule({ theatreAreaId: '1038', eventId: '303601', numberOfDays: 3 })).toMatchObject(expectedScheduleJson);
+    expect(axios.get).toHaveBeenCalledWith(
+      "https://www.finnkino.fi/xml/Schedule/?area=1038&eventID=303601&nrOfDays=3",
+      { "responseType": "document" });
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  });
 
-//     expect(await getSchedule({ theatreAreaId: '1038', eventId: '303601', numberOfDays: 3 })).toMatchObject(expectedScheduleJson);
-//     expect(axios.get).toHaveBeenCalledWith("https://www.finnkino.fi/xml/Schedule/?area=1038&eventID=303601&nrOfDays=3");
-//     expect(axios.get).toHaveBeenCalledTimes(1);
-//   });
+  test("It should return error if axios query fails", () => {
 
-//   test("It should return error if axios query fails", () => {
-
-//   });
-// });
+  });
+});
