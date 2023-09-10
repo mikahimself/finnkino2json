@@ -120,7 +120,7 @@ describe("Get schedule data from Finnkino API", () => {
   test('should get schedule for default area with all events for a defined date', async() => {
     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
 
-    expect(await getSchedule({ date: '2022-01-01T00:00:00' })).toMatchObject(expectedScheduleJson);
+    expect(await getSchedule({ date: "2022/01/01" })).toMatchObject(expectedScheduleJson);
     expect(axios.get).toHaveBeenCalledWith(
       "https://www.finnkino.fi/xml/Schedule/?dt=01.01.2022",
       { "responseType": "document" });

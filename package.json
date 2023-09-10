@@ -32,5 +32,8 @@
   "dependencies": {
     "axios": "^0.24.0",
     "xml2js": "^0.6.2"
+  },
+  "jest": {
+    "testMatch": ["**/src/**/*.test.ts"]
   }
 }

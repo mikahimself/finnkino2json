@@ -4,6 +4,7 @@ import { ScheduleParams } from "../interfaces/ScheduleParams";
 import { writeFile } from "fs/promises"; 
 import path from "path";
 import { existsSync, mkdir } from "fs";
+import { isValidDate } from "./validate";
 
 function checkDownloadDirectory() {
   if (existsSync(config.downloadDir)) {
@@ -45,11 +46,9 @@ export async function getAreasXML(storeXml: boolean = false):Promise<string> {
   } catch (error) {
     if (error.response) {
       // Request was made but the server responded with an error
-      console.log("servervirhe")
       throw new Error(`Unable to download XML Area data from ${config.areasUrl}: ${error.response.code}`);
     } else if (error.request) {
       // Request was made but no response was received from the server
-      console.log("ei resoponssi servervirhe")
       throw new Error(`Unable to download XML Area data from ${config.areasUrl}: ${error.request}`);
     }
   }
@@ -95,22 +94,27 @@ export async function getScheduleXML(
     eventId,
     numberOfDays = config.numberOfDays ?? undefined } :ScheduleParams): Promise<string> {
   
-  try {
-    const params = {}
-    if (theatreAreaId) {
-      params["area"] = theatreAreaId;
-    }
-    if (date) {
-      const formattedDate = new Date(date).toLocaleDateString("fi", config.dateTimeOptions)
-      params["dt"] = formattedDate;
-    }
-    if (eventId) {
-      params["eventID"] = eventId;
-    }
-    if (numberOfDays) {
-      params["nrOfDays"] = numberOfDays;
-    }
+  const params = {}
+  
+  if (theatreAreaId) {
+    params["area"] = theatreAreaId;
+  }
+  
+  if (date) {
+    if (!isValidDate(date)) throw new Error("Invalid date format. Please enter date in DDDD/MM/YY format.")
+    const formattedDate = new Date(date).toLocaleDateString("fi", config.dateTimeOptions)
+    params["dt"] = formattedDate;
+  }
 
+  if (eventId) {
+    params["eventID"] = eventId;
+  }
+
+  if (numberOfDays) {
+    params["nrOfDays"] = numberOfDays;
+  }
+
+  try {
     const searchParamsObj = new URLSearchParams(params);
     const searchParamsString = searchParamsObj.toString().length > 0 ? `?${searchParamsObj.toString()}` : '';
     const xmlData = await axios.get(`${config.scheduleUrl}${searchParamsString}`, { responseType: "document" })
