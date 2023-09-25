@@ -101,7 +101,8 @@ export async function getScheduleXML(
   }
   
   if (date) {
-    if (!isValidDate(date)) throw new Error("Invalid date format. Please enter date in DDDD/MM/YY format.")
+    const isGivenDateValid = isValidDate(date);
+    if (!isGivenDateValid.valid) throw new Error(isGivenDateValid.msg)
     const formattedDate = new Date(date).toLocaleDateString("fi", config.dateTimeOptions)
     params["dt"] = formattedDate;
   }
@@ -121,6 +122,5 @@ export async function getScheduleXML(
     return xmlData.data ?? "";
   } catch (error) {
     console.log("Failed to get schedule XML")
-    // throw error;
   }
 }

@@ -12,8 +12,12 @@
     "type": "git",
     "url": "git+https://github.com/mikahimself/finnkino2json-server.git"
   },
-  "author": "https://github.com/mikahimself",
-  "license": "ISC",
+  "author": {
+    "name": "Mika Laihanen",
+    "email": "mika@mikahimself.com",
+    "url": "https://github.com/mikahimself"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mikahimself/finnkino2json-server/issues"
   },
@@ -23,7 +27,7 @@
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-typescript": "^7.16.5",
     "@types/jest": "^27.0.3",
-    "@types/node": "^20.1.0",
+    "@types/node": "^20.6.3",
     "babel-jest": "^27.4.5",
     "jest": "^27.4.5",
     "ts-jest": "^27.1.2",
@@ -34,6 +38,11 @@
     "xml2js": "^0.6.2"
   },
   "jest": {
-    "testMatch": ["**/src/**/*.test.ts"]
-  }
+    "testMatch": [
+      "**/src/**/*.test.ts"
+    ]
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }

@@ -5,8 +5,9 @@
     "target": "es2017",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "lib",
-    "declaration": true
+    "outDir": "./lib",
+    "declaration": true,
+    "types": ["jest", "node"]
   },
   "include": ["src/**/*"],
   "lib": ["es2015"]

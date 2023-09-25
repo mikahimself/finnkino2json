@@ -1,4 +1,5 @@
 import { isValidDate, isValidPattern, isValidDayMonthOrder } from "./validate";
+import { createDateString } from "./testHelpers";
 
 describe("Tests validation utilities", () => {
   it("correctly tests date format pattern", () => {
@@ -24,33 +25,35 @@ describe("Tests validation utilities", () => {
   })
 
   it("date validation returns true for a correctly formatted date", () => {
-    const dateToTest1 = "2023/04/03";
-    const dateToTest2 = "12/06/2023";
-    const dateToTest3 = "2023/12/24";
-    expect(isValidDate(dateToTest1)).toBe(true);
-    expect(isValidDate(dateToTest2)).toBe(false);
-    expect(isValidDate(dateToTest3)).toBe(true);
-  })
+    const dateToTest1 = createDateString(5);
+    const dateToTest2 = createDateString(31);
+    const dateToTest3 = createDateString(50);
+
+    const expectedMsg = { valid: true, msg: "" }
+    expect(isValidDate(dateToTest1)).toMatchObject(expectedMsg);
+    expect(isValidDate(dateToTest2)).toMatchObject(expectedMsg);
+    expect(isValidDate(dateToTest3)).not.toMatchObject(expectedMsg);
+  });
   
   it("date validation returns false for an incorrectly formatted date", () => {
     const dateToTest1 = "2023/22/03";
-    const dateToTest2 = "2023/12/03";
-    const dateToTest3 = "2023/13/10";
-    const dateToTest4 = "2022/01/01";
-    const dateToTest5 = "2022/01/44";
+    const dateToTest2 = "2023/13/10";
+    const dateToTest3 = "2022/01/44";
 
-    expect(isValidDate(dateToTest1)).toBe(false);
-    expect(isValidDate(dateToTest2)).toBe(true);
-    expect(isValidDate(dateToTest3)).toBe(false);
-    expect(isValidDate(dateToTest4)).toBe(true);
-    expect(isValidDate(dateToTest5)).toBe(false);
-  })
+    const expectedObject = { valid: false, msg: "Invalid date format. Please enter date in DDDD/MM/YY format."}
 
-  it("date validation returns false for an correctly formatted but incorrect date", () => {
-    const dateToTest1 = "2022/01/44";
-    const dateToTest2 = "1969/01/44";
+    expect(isValidDate(dateToTest1)).toMatchObject(expectedObject);
+    expect(isValidDate(dateToTest2)).toMatchObject(expectedObject);
+    expect(isValidDate(dateToTest3)).toMatchObject(expectedObject);
+  });
 
-    expect(isValidDate(dateToTest1)).toBe(false);
-    expect(isValidDate(dateToTest2)).toBe(false);
+  it("returns true when given date is within 1-31 days of the current date", () => {
+    const dateToTest1 = createDateString(1);
+    const dateToTest2 = createDateString(31);
+    const dateToTest3 = createDateString(15);
+
+    expect(isValidDate(dateToTest1)).toMatchObject({ valid: true, msg: ""})
+    expect(isValidDate(dateToTest2)).toMatchObject({ valid: true, msg: ""})
+    expect(isValidDate(dateToTest3)).toMatchObject({ valid: true, msg: ""})
   })
 })
