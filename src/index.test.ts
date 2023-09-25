@@ -1,5 +1,6 @@
 import { getAreas, getScheduleDates, getSchedule } from "./index";
 import { mockedScheduleXml, mockedAreasXml, mockedDatesXml } from "./utils/mockData";
+import { createDateString } from "./utils/testHelpers";
 import axios from "axios";
 
 jest.mock("axios");
@@ -119,10 +120,14 @@ describe("Get schedule data from Finnkino API", () => {
   });
   test('should get schedule for default area with all events for a defined date', async() => {
     mockedAxios.get.mockResolvedValueOnce(mockedScheduleXml);
+    const date = createDateString(1);
+    const dateParts = date.split("/")
+    const dateFi = `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}`
+    console.log(dateFi)
 
-    expect(await getSchedule({ date: "2022/01/01" })).toMatchObject(expectedScheduleJson);
+    expect(await getSchedule({ date: date })).toMatchObject(expectedScheduleJson);
     expect(axios.get).toHaveBeenCalledWith(
-      "https://www.finnkino.fi/xml/Schedule/?dt=01.01.2022",
+      `https://www.finnkino.fi/xml/Schedule/?dt=${dateFi}`,
       { "responseType": "document" });
     expect(axios.get).toHaveBeenCalledTimes(1);
   })
