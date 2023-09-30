@@ -4,6 +4,7 @@ export interface Images {
   eventMediumImagePortrait?: string,
   eventLargeImagePortrait?: string,
   eventSmallImageLandscape?: string,
+  eventMediumImageLandscape?: string,
   eventLargeImageLandscape?: string,
 }
 
@@ -13,5 +14,6 @@ export interface ImagesXml2Js {
   eventMediumImagePortrait?: [string],
   eventLargeImagePortrait?: [string],
   eventSmallImageLandscape?: [string],
+  eventMediumImageLandscape?: [string],
   eventLargeImageLandscape?: [string],
 }
