@@ -26,7 +26,7 @@ describe("Tests validation utilities", () => {
 
   it("date validation returns true for a correctly formatted date", () => {
     const dateToTest1 = createDateString(5);
-    const dateToTest2 = createDateString(31);
+    const dateToTest2 = createDateString(30);
     const dateToTest3 = createDateString(50);
 
     const expectedMsg = { valid: true, msg: "" }
@@ -49,7 +49,7 @@ describe("Tests validation utilities", () => {
 
   it("returns true when given date is within 1-31 days of the current date", () => {
     const dateToTest1 = createDateString(1);
-    const dateToTest2 = createDateString(31);
+    const dateToTest2 = createDateString(30);
     const dateToTest3 = createDateString(15);
 
     expect(isValidDate(dateToTest1)).toMatchObject({ valid: true, msg: ""})

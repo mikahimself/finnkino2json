@@ -123,7 +123,6 @@ describe("Get schedule data from Finnkino API", () => {
     const date = createDateString(1);
     const dateParts = date.split("/")
     const dateFi = `${dateParts[2]}.${dateParts[1]}.${dateParts[0]}`
-    console.log(dateFi)
 
     expect(await getSchedule({ date: date })).toMatchObject(expectedScheduleJson);
     expect(axios.get).toHaveBeenCalledWith(
