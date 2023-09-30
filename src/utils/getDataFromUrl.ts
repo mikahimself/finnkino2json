@@ -124,3 +124,27 @@ export async function getScheduleXML(
     console.log("Failed to get schedule XML")
   }
 }
+
+/**
+ * Retrieve an array of TheatreAreas in XML format
+ * @returns XML string representation of the TheatreArea array
+ */
+export async function getEventsXML(storeXml: boolean = false):Promise<string> {
+  const file = formXmlFilePath(config.areaXmlFilename);
+  try {
+    console.log("Getting stuff from ", config.eventsUrl)
+    const xmlData = await axios.get<string>(config.eventsUrl);
+    if (storeXml && xmlData && checkDownloadDirectory()) {
+      await writeFile(file, xmlData.data ?? "")
+    }
+    return xmlData.data ?? "";
+  } catch (error) {
+    if (error.response) {
+      // Request was made but the server responded with an error
+      throw new Error(`Unable to download XML Events data from ${config.eventsUrl}: ${error.response.code}`);
+    } else if (error.request) {
+      // Request was made but no response was received from the server
+      throw new Error(`Unable to download XML Events data from ${config.eventsUrl}: ${error.request}`);
+    }
+  }
+}

@@ -6,6 +6,7 @@ interface Config {
   _areaXmlFilename: string,
   _scheduleDatesXmlFilename: string,
   _scheduleXmlFilename: string,
+  _eventsXmlFilename: string,
   _dateTimeOptions: Intl.DateTimeFormatOptions,
   baseURL: string,
   areasUrl: string,
@@ -20,6 +21,7 @@ interface Config {
   areaXmlFilename: string,
   scheduleDatesXmlFilename: string,
   scheduleXmlFilename: string,
+  eventsXmlFilename: string,
   dateTimeOptions: Intl.DateTimeFormatOptions
 }
 
@@ -31,6 +33,7 @@ export let config: Config = {
   _areaXmlFilename: 'Areas',
   _scheduleDatesXmlFilename: "ScheduleDates",
   _scheduleXmlFilename: "Schedule",
+  _eventsXmlFilename: "Events",
   _dateTimeOptions: {
     year: "numeric",
     month: "2-digit",
@@ -58,6 +61,8 @@ export let config: Config = {
   set scheduleDatesXmlFilename(value: string) { this._scheduleDatesXmlFilename = value },
   get scheduleXmlFilename() { return this._scheduleXmlFilename },
   set scheduleXmlFilename(value: string) { this._scheduleXmlFilename = value },
+  get eventsXmlFilename() { return this._eventsXmlFilename },
+  set eventsXmlFilename(value: string) { this._eventsFilename = value },
   get dateTimeOptions() { return this._dateTimeOptions },
   set dateTimeOptions(value: { year: "2-digit" | "numeric", month: "numeric" | "2-digit" | "long" | "short" | "narrow", day: "numeric" | "2-digit"}) { this._dateTimeOptions = value }
 

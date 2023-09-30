@@ -30,6 +30,5 @@ async function convertAreaXmlToJson(xmlData:string): Promise<TheatreArea[]> {
     return parsedJson;
   } catch (error) {
     throw new Error(`Unable to convert raw JSON to sanitized JSON: ${error}`);
-
   }
 }
