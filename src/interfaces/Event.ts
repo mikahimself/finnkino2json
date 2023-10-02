@@ -1,16 +1,18 @@
 import { Actor, ActorXml2Js } from "./Actor";
+import { CastXml2Js } from "./Cast";
 import { ContentDescriptor, ContentDescriptorXml2Js } from "./ContentDescriptor";
-import { Director, DirectorXmlJs } from "./Director";
+import { Director, DirectorXml2Js } from "./Director";
+import { DirectorsXml2Js } from "./Directors";
 import { EventVideo } from "./EventVideo";
 import { Images, ImagesXml2Js } from "./Images";
 
-export interface Event {
-  id: number,
+export interface TheatreEvent {
+  id: string,
   title: string,
   originalTitle: string,
   productionYear: number,
   lengthInMinutes: number,
-  dtLocalRelease: Date,
+  dtLocalRelease: string,
   rating: number,
   ratingLabel: number,
   ratingImageUrl: string,
@@ -18,7 +20,7 @@ export interface Event {
   globalDistributorName: string,
   productionCompanies: string,
   eventType: string,
-  genres: string,
+  genres: [string],
   shortSynopsis: string,
   synopsis: string,
   eventUrl: string,
@@ -38,7 +40,7 @@ export interface EventXml2Js {
   dtLocalRelease: [string],
   Rating: [string],
   RatingLabel: [string],
-  EatingImageUrl: [string],
+  RatingImageUrl: [string],
   LocalDistributorName: [string],
   GlobalDistributorName: [string],
   ProductionCompanies: [string],
@@ -46,10 +48,10 @@ export interface EventXml2Js {
   Genres: [string],
   ShortSynopsis: [string],
   Synopsis: [string],
-  EventUrl: [string],
-  Images: [ImagesXml2Js[]],
+  EventURL: [string],
+  Images: [ImagesXml2Js],
   Videos: [EventXml2Js[]],
-  cast: [ActorXml2Js[]] | null,
-  directors: [DirectorXmlJs] | null,
-  contentDescriptors: [ContentDescriptorXml2Js[]] | null,
+  Cast: [CastXml2Js],
+  Directors: [DirectorsXml2Js] | null,
+  ContentDescriptors: [ContentDescriptorXml2Js[]] | null,
 }
