@@ -73,11 +73,11 @@ export async function getScheduleDatesXML(areaId: string, storeXml: boolean): Pr
   } catch (error) {
     if (error.response) {
       // Request was made but the server responded with an error
-      console.log("Unable to download XML Schedule dates")
+      console.error("Unable to download XML Schedule dates")
       throw new Error(`Unable to download XML Schedule dates from ${config.scheduleDatesUrl}: ${error.response.code}`);
     } else if (error.request) {
       // Request was made but no response was received from the server
-      console.log("No response from server")
+      console.error("No response from server")
       throw new Error(`Unable to download XML Schedule dates from ${config.scheduleDatesUrl}: ${error.request}`);
     }
   }
@@ -121,6 +121,29 @@ export async function getScheduleXML(
     const xmlData = await axios.get(`${config.scheduleUrl}${searchParamsString}`, { responseType: "document" })
     return xmlData.data ?? "";
   } catch (error) {
-    console.log("Failed to get schedule XML")
+    console.error("Failed to get schedule XML")
+  }
+}
+
+/**
+ * Retrieve an array of TheatreAreas in XML format
+ * @returns XML string representation of the TheatreArea array
+ */
+export async function getEventsXML(storeXml: boolean = false):Promise<string> {
+  const file = formXmlFilePath(config.areaXmlFilename);
+  try {
+    const xmlData = await axios.get<string>(config.eventsUrl);
+    if (storeXml && xmlData && checkDownloadDirectory()) {
+      await writeFile(file, xmlData.data ?? "")
+    }
+    return xmlData.data ?? "";
+  } catch (error) {
+    if (error.response) {
+      // Request was made but the server responded with an error
+      throw new Error(`Unable to download XML Events data from ${config.eventsUrl}: ${error.response.code}`);
+    } else if (error.request) {
+      // Request was made but no response was received from the server
+      throw new Error(`Unable to download XML Events data from ${config.eventsUrl}: ${error.request}`);
+    }
   }
 }
