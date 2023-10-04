@@ -1,6 +1,5 @@
 import { parseStringPromise } from "xml2js";
 import * as utils from "./utils/getDataFromUrl";
-import { Show, ShowXml2Js } from "./interfaces/Show";
 import { ScheduleParams } from "./interfaces/ScheduleParams";
 import { TheatreEvent, EventXml2Js } from "./interfaces/Event";
 import { ActorXml2Js } from "./interfaces/Actor";
@@ -21,16 +20,12 @@ export async function getEvents(params?: ScheduleParams) {
 }
 
 async function convertDataToJson(xmlData:string) {
-  let showArray: ShowXml2Js[];
-  const showArrayJson: Show[] = []
   const rawJsonData = await parseStringPromise(xmlData, (err, result) => {
     if (err) {
       console.log("Failed to parse XML data to JSON")
     }
     return result.Events;
   });
-  console.log("RAWJSON")
-  console.log(rawJsonData.Events.Event)
   return rawJsonData.Events.Event;
 }
 

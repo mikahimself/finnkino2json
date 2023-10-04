@@ -15,7 +15,7 @@ export async function getScheduleDates(scheduleDateParams?: ScheduleDateParams):
     const jsonData = convertDataToJson(xmlData);
     return jsonData;
   } catch (error) {
-    console.log(error)
+    console.error(error)
     throw new Error (error);
   }
 }
