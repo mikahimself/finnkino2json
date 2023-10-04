@@ -36,11 +36,6 @@ async function convertDataToJson(xmlData:string) {
 
 function parseResultsFromRawJson(events:EventXml2Js[]): TheatreEvent[] {
   const parsedData: TheatreEvent[] = events.map((event:EventXml2Js) => {
-    console.log("Videos")
-    console.log(events[0].Videos)
-    console.log("IMAGES")
-    console.log(events[0].Images[0])
-
 
     return {
       id: event.ID[0],
@@ -69,7 +64,15 @@ function parseResultsFromRawJson(events:EventXml2Js[]): TheatreEvent[] {
         eventMediumImageLandscape: event.Images[0].EventMediumImageLandscape ? event.Images[0].EventMediumImageLandscape[0] : undefined,
         eventLargeImageLandscape: event.Images[0].EventLargeImageLandscape ? event.Images[0].EventLargeImageLandscape[0] : undefined,
       },
-      videos: [],
+      videos: event.Videos[0].EventVideo?.map(video => {
+        return {
+          title: video.Title[0],
+          location: video.Location[0],
+          thumbnailLocation: video.ThumbnailLocation[0],
+          mediaResourceSubType: video.MediaResourceSubType[0],
+          mediaResourceFormat: video.MediaResourceFormat[0]
+        }
+      }),
       cast: event.Cast[0].Actor?.map((actor: ActorXml2Js) => {
         return {
           firstName: actor.FirstName[0],
@@ -82,15 +85,13 @@ function parseResultsFromRawJson(events:EventXml2Js[]): TheatreEvent[] {
           lastName: director.LastName[0],
         }
       }),
-      contentDescriptors: null// event.ContentDescriptors[0],
+      contentDescriptors: event.ContentDescriptors[0].ContentDescriptor?.map((descriptor) => {
+        return {
+          name: descriptor.Name[0],
+          imageUrl: descriptor.ImageURL[0]
+        }
+      })
     }
   });
-  console.log(parsedData);
   return parsedData
 }
-
-//   images: Images,
-//   videos: EventVideo[] | null,
-//   cast: Actor[] | null,
-//   directors: Director[] | null,
-//   contentDescriptors: ContentDescriptor[] | null,

@@ -4,6 +4,10 @@ export interface ContentDescriptor {
 }
 
 export interface ContentDescriptorXml2Js {
-  name: [string],
-  imageUrl: [string]
+  Name: [string],
+  ImageURL: [string]
+}
+
+export interface ContentDescriptorsXml2Js {
+  ContentDescriptor: [ContentDescriptorXml2Js]
 }

@@ -1,9 +1,9 @@
-import { Actor, ActorXml2Js } from "./Actor";
+import { Actor } from "./Actor";
 import { CastXml2Js } from "./Cast";
-import { ContentDescriptor, ContentDescriptorXml2Js } from "./ContentDescriptor";
-import { Director, DirectorXml2Js } from "./Director";
+import { ContentDescriptor, ContentDescriptorsXml2Js } from "./ContentDescriptor";
+import { Director } from "./Director";
 import { DirectorsXml2Js } from "./Directors";
-import { EventVideo } from "./EventVideo";
+import { EventVideo, Videos } from "./EventVideo";
 import { Images, ImagesXml2Js } from "./Images";
 
 export interface TheatreEvent {
@@ -50,8 +50,8 @@ export interface EventXml2Js {
   Synopsis: [string],
   EventURL: [string],
   Images: [ImagesXml2Js],
-  Videos: [EventXml2Js[]],
+  Videos: [Videos],
   Cast: [CastXml2Js],
   Directors: [DirectorsXml2Js] | null,
-  ContentDescriptors: [ContentDescriptorXml2Js[]] | null,
+  ContentDescriptors: [ContentDescriptorsXml2Js] | null,
 }
