@@ -19,7 +19,7 @@ export interface TheatreEvent {
   localDistributorName: string,
   globalDistributorName: string,
   productionCompanies: string,
-  eventType: string,
+  theatreEventType: string,
   genres: [string],
   shortSynopsis: string,
   synopsis: string,
@@ -31,7 +31,7 @@ export interface TheatreEvent {
   contentDescriptors: ContentDescriptor[] | null,
 }
 
-export interface EventXml2Js {
+export interface TheatreEventXml2Js {
   ID: [string],
   Title: [string],
   OriginalTitle: [string],

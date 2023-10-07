@@ -1,6 +1,6 @@
 import { getAreas } from "./getAreas";
-import { getEvents } from "./getEvents";
+import { getTheatreEvents } from "./getTheatreEvents";
 import { getScheduleDates } from "./getScheduleDates";
 import { getSchedule } from "./getSchedule";
 
-export { getAreas, getEvents, getScheduleDates, getSchedule }
+export { getAreas, getTheatreEvents, getScheduleDates, getSchedule }

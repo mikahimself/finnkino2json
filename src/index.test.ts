@@ -15,11 +15,11 @@ const expectedAreasJson = [
 ]
 
 const expectedDatesJson = [
-  {"date": new Date("2021-12-26T00:00:00.000Z")},
-  {"date": new Date("2021-12-27T00:00:00.000Z")},
-  {"date": new Date("2022-01-18T00:00:00.000Z")},
-  {"date": new Date("2022-01-19T00:00:00.000Z")},
-  {"date": new Date("2022-01-24T00:00:00.000Z")},
+  { "date": new Date("2021-12-26T00:00:00.000Z") },
+  { "date": new Date("2021-12-27T00:00:00.000Z") },
+  { "date": new Date("2022-01-18T00:00:00.000Z") },
+  { "date": new Date("2022-01-19T00:00:00.000Z") },
+  { "date": new Date("2022-01-24T00:00:00.000Z") },
 ]
 
 const expectedScheduleJson = [
@@ -38,7 +38,7 @@ const expectedScheduleJson = [
     showReservationStartTimeUTC: '0001-01-01T00:00:00Z',
     showReservationEndTime: '0001-01-01T00:00:00',
     showReservationEndTimeUTC: '0001-01-01T00:00:00Z',
-    eventId: 303601,
+    theatreEventId: 303601,
     title: 'Oma näytös',
     originalTitle: 'Oma näytös',
     productionYear: 2021,
@@ -47,7 +47,7 @@ const expectedScheduleJson = [
     rating: '(none)',
     ratingLabel: '(none)',
     ratingImageUrl: 'https://media.finnkino.fi/images/rating_large_(none).png',
-    eventType: 'Movie',
+    theatreEventType: 'Movie',
     genres: 'Oma näytös',
     theatreId: 1038,
     theatreAuditriumId: 1279,
@@ -56,7 +56,7 @@ const expectedScheduleJson = [
     theatreAndAuditorium: 'Tennispalatsi, Helsinki, sali 6',
     presentationMethodAndLanguage: '2D',
     presentationMethod: '2D',
-    eventSeries: '',
+    theatreEventSeries: '',
     showUrl: 'http://www.finnkino.fi/websales/show/1653666/',
     eventUrl: 'http://www.finnkino.fi/event/303601/title/oma_n%C3%A4yt%C3%B6s/',
     subtitleLanguage1: { name: 'Valitun elokuvan mukainen', isoTwoLetterCode: 'NA' },

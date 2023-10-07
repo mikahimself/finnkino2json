@@ -26,7 +26,6 @@ async function convertDataToJson(xmlData:string): Promise<Show[]> {
     }
     return result;
   });
-  // showArray.forEach((element: ShowXml2Js) => {
   rawJsonData.Schedule.Shows[0].Show.forEach((element: ShowXml2Js) => {
     showArrayJson.push(
       {
@@ -44,7 +43,7 @@ async function convertDataToJson(xmlData:string): Promise<Show[]> {
         showReservationStartTimeUTC: element.ShowReservationStartTimeUTC[0],
         showReservationEndTime: element.ShowReservationEndTime[0],
         showReservationEndTimeUTC: element.ShowReservationEndTimeUTC[0],
-        eventId: Number(element.EventID[0]),
+        theatreEventId: Number(element.EventID[0]),
         title: element.Title[0],
         originalTitle: element.OriginalTitle[0],
         productionYear: Number(element.ProductionYear[0]),
@@ -53,7 +52,7 @@ async function convertDataToJson(xmlData:string): Promise<Show[]> {
         rating: element.Rating[0],
         ratingLabel: element.RatingLabel[0],
         ratingImageUrl: element.RatingImageUrl[0],
-        eventType: element.EventType[0],
+        theatreEventType: element.EventType[0],
         genres: element.Genres[0],
         theatreId: Number(element.TheatreID[0]),
         theatreAuditriumId: Number(element.TheatreAuditriumID[0]),
@@ -62,7 +61,7 @@ async function convertDataToJson(xmlData:string): Promise<Show[]> {
         theatreAndAuditorium: element.TheatreAndAuditorium[0],
         presentationMethodAndLanguage: element.PresentationMethodAndLanguage[0],
         presentationMethod: element.PresentationMethod[0],
-        eventSeries: element.EventSeries[0],
+        theatreEventSeries: element.EventSeries[0],
         showUrl: element.ShowURL[0],
         eventUrl: element.EventURL[0],
         ...element?.SpokenLanguage && {spokenLanguage: {

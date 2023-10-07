@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { config } from "../config";
 import { ScheduleParams } from "../interfaces/ScheduleParams";
 import { writeFile } from "fs/promises"; 
@@ -132,7 +132,7 @@ export async function getScheduleXML(
 export async function getEventsXML(storeXml: boolean = false):Promise<string> {
   const file = formXmlFilePath(config.areaXmlFilename);
   try {
-    const xmlData = await axios.get<string>(config.eventsUrl);
+    const xmlData = await axios.get<string>(config.theatreEventsUrl);
     if (storeXml && xmlData && checkDownloadDirectory()) {
       await writeFile(file, xmlData.data ?? "")
     }
@@ -140,10 +140,10 @@ export async function getEventsXML(storeXml: boolean = false):Promise<string> {
   } catch (error) {
     if (error.response) {
       // Request was made but the server responded with an error
-      throw new Error(`Unable to download XML Events data from ${config.eventsUrl}: ${error.response.code}`);
+      throw new Error(`Unable to download XML Events data from ${config.theatreEventsUrl}: ${error.response.code}`);
     } else if (error.request) {
       // Request was made but no response was received from the server
-      throw new Error(`Unable to download XML Events data from ${config.eventsUrl}: ${error.request}`);
+      throw new Error(`Unable to download XML Events data from ${config.theatreEventsUrl}: ${error.request}`);
     }
   }
 }
