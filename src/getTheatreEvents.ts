@@ -1,10 +1,10 @@
 import { parseStringPromise } from "xml2js";
 import * as utils from "./utils/getDataFromUrl";
 import { ScheduleParams } from "./interfaces/ScheduleParams";
-import { TheatreEvent, EventXml2Js } from "./interfaces/Event";
+import { TheatreEvent, TheatreEventXml2Js } from "./interfaces/TheatreEvent";
 import { ActorXml2Js } from "./interfaces/Actor";
 
-export async function getEvents(params?: ScheduleParams) {
+export async function getTheatreEvents(params?: ScheduleParams) {
   if (!params) {
     params = {};
   }
@@ -29,8 +29,8 @@ async function convertDataToJson(xmlData:string) {
   return rawJsonData.Events.Event;
 }
 
-function parseResultsFromRawJson(events:EventXml2Js[]): TheatreEvent[] {
-  const parsedData: TheatreEvent[] = events.map((event:EventXml2Js) => {
+function parseResultsFromRawJson(theatreEvents:TheatreEventXml2Js[]): TheatreEvent[] {
+  const parsedData: TheatreEvent[] = theatreEvents.map((event:TheatreEventXml2Js) => {
 
     return {
       id: event.ID[0],
@@ -45,7 +45,7 @@ function parseResultsFromRawJson(events:EventXml2Js[]): TheatreEvent[] {
       localDistributorName: event.LocalDistributorName[0],
       globalDistributorName: event.GlobalDistributorName[0],
       productionCompanies: event.ProductionCompanies[0],
-      eventType: event.EventType[0],
+      theatreEventType: event.EventType[0],
       genres: event.Genres,
       shortSynopsis: event.ShortSynopsis[0],
       synopsis: event.Synopsis[0],
