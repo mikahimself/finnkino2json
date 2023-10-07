@@ -14,7 +14,7 @@ export async function getTheatreEvents(params?: ScheduleParams) {
     const parsedJson = parseResultsFromRawJson(jsonData);
     return parsedJson;
   } catch (error) {
-    console.log("Failed to transform Schedule XML to JSON.")
+    console.error("Failed to transform Schedule XML to JSON.")
     throw error;
   }
 }
@@ -22,7 +22,7 @@ export async function getTheatreEvents(params?: ScheduleParams) {
 async function convertDataToJson(xmlData:string) {
   const rawJsonData = await parseStringPromise(xmlData, (err, result) => {
     if (err) {
-      console.log("Failed to parse XML data to JSON")
+      console.error("Failed to parse XML data to JSON")
     }
     return result.Events;
   });
@@ -31,7 +31,6 @@ async function convertDataToJson(xmlData:string) {
 
 function parseResultsFromRawJson(theatreEvents:TheatreEventXml2Js[]): TheatreEvent[] {
   const parsedData: TheatreEvent[] = theatreEvents.map((event:TheatreEventXml2Js) => {
-
     return {
       id: event.ID[0],
       title: event.Title[0],
@@ -39,8 +38,8 @@ function parseResultsFromRawJson(theatreEvents:TheatreEventXml2Js[]): TheatreEve
       productionYear: parseInt(event.ProductionYear[0]),
       lengthInMinutes: parseInt(event.LengthInMinutes[0]),
       dtLocalRelease: event.dtLocalRelease[0],
-      rating: parseInt(event.Rating[0]),
-      ratingLabel: parseInt(event.RatingLabel[0]),
+      rating: event.Rating[0],
+      ratingLabel: event.RatingLabel[0],
       ratingImageUrl: event.RatingImageUrl[0],
       localDistributorName: event.LocalDistributorName[0],
       globalDistributorName: event.GlobalDistributorName[0],
@@ -49,7 +48,7 @@ function parseResultsFromRawJson(theatreEvents:TheatreEventXml2Js[]): TheatreEve
       genres: event.Genres,
       shortSynopsis: event.ShortSynopsis[0],
       synopsis: event.Synopsis[0],
-      eventUrl: event.EventURL[0],
+      theatreEventUrl: event.EventURL[0],
       images: {
         eventMicroImagePortrait: event.Images[0].EventMicroImagePortrait ? event.Images[0].EventMicroImagePortrait[0] : undefined,
         eventSmallImagePortrait: event.Images[0].EventSmallImagePortrait ? event.Images[0].EventSmallImagePortrait[0] : undefined,
